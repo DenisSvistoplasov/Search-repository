@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search GitHub</title>
+  <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
+
+  <link rel="stylesheet" href="./css/style.css">
+  <script defer src="./js/script.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <form class="form">
+      <label for="search" class="form__label">Поиск по репозиториям GitHub</label>
+      <div class="form__controls">
+        <input class="search-input" type="text" name="search" id="search">
+        <button class="submit">Поиск</button>
+      </div>
+    </form>
+
+    <div class="results">
+      <h1 class="results-title">Результаты поиска</h1>
+      <ul class="results-list">
+        
+        <!-- <li class="result">
+          <a href="" class="user">
+            <img src="https://avatars.githubusercontent.com/u/5383506?v=4" alt="Аватар пользователя" class="user__img">
+            <div class="user__name">DenisDenisDenis</div>
+          </a>
+          <div class="repository">
+            <div class="repository__name-date">
+              <a href="" class="repository__name">Tetris</a>
+              <span class="repository__date">21.11.22</span>
+            </div>
+            <div class="repository__description">This is a repository</div>
+          </div>
+        </li> -->
+        
+        
+      </ul>
+      <img class="saver visible" src="./img/saver.webp" alt="заставка">
+      <img class="preloader" src="./img/preloader.svg" alt="">
+      <div class="not-found">Ничего не найдено</div>
+      <div class="server-error"></div>
+    </div>
+  </div>
+
+</body>
+
+</html>
