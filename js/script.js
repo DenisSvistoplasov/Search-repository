@@ -22,7 +22,7 @@
     if (checkValidity()) makeSearchRequest(searchString);
     else input.focus();
   }
-  
+
   function checkValidity() {
     const errorMessages = [...form.querySelectorAll('.error-message')];
     errorMessages.forEach(el => el.remove());
@@ -32,7 +32,7 @@
     if (/[{}|\\^~[\]`]/.test(value)) {
       formControlsEl.append(createValidationErrorMessage('Недопустимые символы: {}|\\^~[]`'));
       return false;
-    } 
+    }
     if (value.length < 3) {
       formControlsEl.append(createValidationErrorMessage('Введите не менее 3-х символов'));
       return false;
@@ -62,7 +62,7 @@
         });
       })
       .catch(error => {
-        serverErrorEl.textContent = 'Ответ сервера: '+error;
+        serverErrorEl.textContent = 'Ошибка: ' + error.message;
         serverErrorEl.classList.add('visible');
       })
       .finally(() => preloader.classList.remove('visible'));
@@ -77,22 +77,24 @@
   }
 
   async function search(query, resultCount = RESULT_LIMIT_COUNT) {
-    let response = await fetch('https://api.github.com/search/repositories?q=' + query+'&per_page='+resultCount);
-    response = await response.json();
-
-    if (!response.items) return Promise.reject(response.message);
-
-    const results = response.items.slice(0, resultCount).map(item => ({
-      userName: item.owner.login,
-      userImg: item.owner.avatar_url || DEFAULT_USER_ICON,
-      userLink: item.owner.html_url,
-      repositoryName: item.name,
-      date: new Date(item.updated_at),
-      description: item.description || '-',
-      repositoryLink: item.html_url
-    }));
-
-    return results;
+    return fetch('https://api.github.com/search/repositories?q=' + query + '&per_page=' + resultCount)
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(error => {throw new Error(error.message);});
+        }
+        return response.json();
+      })
+      .then(response => response.items.slice(0, resultCount).map(item => (
+        {
+          userName: item.owner.login,
+          userImg: item.owner.avatar_url || DEFAULT_USER_ICON,
+          userLink: item.owner.html_url,
+          repositoryName: item.name,
+          date: new Date(item.updated_at),
+          description: item.description || '-',
+          repositoryLink: item.html_url
+        }
+      )));
   }
 
   function createSearchResultItem({userName, userImg, repositoryName, date, description, userLink, repositoryLink}) {
